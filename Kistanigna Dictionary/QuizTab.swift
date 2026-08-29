@@ -19,7 +19,7 @@ struct QuizTab: View {
     @State private var promptText: String = ""
     @State private var options: [String] = []
     @State private var correctAnswer: String = ""
-    @State private var answerSelected: String? = nil
+    @State private var answerSelected: String?
     @State private var score = 0
     @State private var questionCount = 0
     @State private var quizFinished = false

@@ -19,7 +19,7 @@ import SwiftUI
 // ─────────────────────────────────────────────────────────────
 
 struct QuizWrapperTab: View {
-    @State private var selectedCategory: String? = nil
+    @State private var selectedCategory: String?
 
     var body: some View {
         ZStack {

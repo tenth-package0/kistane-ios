@@ -21,7 +21,7 @@ struct QuizStartView: View {
     var onSelect: (String) -> Void
 
     @State private var animateIn = false
-    @State private var pressedCategory: String? = nil
+    @State private var pressedCategory: String?
 
     let categories: [QuizCategory] = [
         QuizCategory(name: "Greetings", icon: "hand.wave", description: "Learn common greetings and introductions", color: Color.blue),
