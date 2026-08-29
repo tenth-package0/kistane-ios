@@ -48,7 +48,7 @@ struct FavoritesTab: View {
 
     var body: some View {
         ZStack {
-            // Premium animated background
+            // Shared animated background used across the main tabs.
             AnimatedGradientBackground()
                 .ignoresSafeArea()
             
@@ -63,7 +63,7 @@ struct FavoritesTab: View {
             }
             
             VStack(spacing: 0) {
-                // Premium header with parallax effect
+                // Move the header more slowly than the scrolling content.
                 premiumHeader
                     .offset(y: min(0, scrollOffset / 3))
                     .zIndex(1)
@@ -545,7 +545,7 @@ struct FavoritesTab: View {
     @Namespace private var languageNamespace
 }
 
-// MARK: - Beautiful iOS Style Card with Premium Design
+// MARK: - Favorite card
 
 struct IOSStyleFavoriteCard: View {
     let entry: DictionaryEntry
@@ -585,7 +585,7 @@ struct IOSStyleFavoriteCard: View {
                         )
                 }
                 
-                // Beautiful translation section
+                // Show the entry in each supported language.
                 VStack(alignment: .leading, spacing: 10) {
                     if selectedLanguage != "Kistanigna" {
                         BeautifulTranslationRow(
@@ -636,7 +636,7 @@ struct IOSStyleFavoriteCard: View {
             .frame(height: 200)
             .background(
                 ZStack {
-                    // Beautiful gradient background
+                    // Gradient separates the card from the shared background.
                     RoundedRectangle(cornerRadius: 24)
                         .fill(
                             LinearGradient(
@@ -650,7 +650,7 @@ struct IOSStyleFavoriteCard: View {
                             )
                         )
                     
-                    // Beautiful border
+                    // A light border preserves contrast over the gradient.
                     RoundedRectangle(cornerRadius: 24)
                         .stroke(
                             LinearGradient(
@@ -685,7 +685,7 @@ struct IOSStyleFavoriteCard: View {
             .shadow(color: Color.white.opacity(0.1), radius: 1, x: 0, y: 1) // Inner highlight
             .animation(.spring(response: 0.4, dampingFraction: 0.8), value: isPressed)
             
-            // Premium delete button (iOS style)
+            // Keep deletion available without making it the primary action.
             if isDeletionMode {
                 VStack {
                     HStack {
@@ -768,7 +768,7 @@ struct BeautifulTranslationRow: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            // Beautiful colored indicator
+            // Color distinguishes each language row at a glance.
             ZStack {
                 Circle()
                     .fill(color.opacity(0.2))
@@ -800,7 +800,7 @@ struct BeautifulTranslationRow: View {
     }
 }
 
-// Keep the existing helper views (TranslationText, PremiumEmptyState, etc.)
+// MARK: - Supporting views
 struct TranslationText: View {
     let label: String
     let text: String
