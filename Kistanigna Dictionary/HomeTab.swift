@@ -29,13 +29,13 @@ struct HomeTab: View {
     @State private var searchText = ""
     @State private var isLoading = true
     @State private var fullEntries: [DictionaryEntry] = []
-    @State private var selectedEntry: DictionaryEntry? = nil
+    @State private var selectedEntry: DictionaryEntry?
     @State private var showSearchBar = false
 
     // Search sections are rebuilt off the main thread when the query changes.
     @State private var sections: [WordSection] = []
     @State private var resultCount: Int = 0
-    @State private var rebuildTask: Task<Void, Never>? = nil
+    @State private var rebuildTask: Task<Void, Never>?
 
     @AppStorage("favoriteKeys") private var favoriteKeysRaw: String = ""
     @FocusState private var searchFieldFocused: Bool
