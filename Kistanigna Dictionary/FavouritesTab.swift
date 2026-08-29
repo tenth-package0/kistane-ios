@@ -12,7 +12,7 @@ struct FavoritesTab: View {
     @State private var scrollOffset: CGFloat = 0
     @State private var showFilterMenu = false
     @State private var selectedFilter: String? = nil
-    @State private var isDeletionMode = false // New deletion mode state
+    @State private var isDeletionMode = false
     
     let languages = ["Kistanigna", "English", "Amharic"]
     let filterOptions = ["All", "Recently Added", "Alphabetical", "Most Viewed"]

@@ -7,7 +7,7 @@ struct MatchedEntry: Identifiable {
     let relevanceScore: Int
 }
 
-// Kept here because FavoritesTab uses it for its parallax header
+// Shared with FavoritesTab to track its parallax header offset.
 struct ScrollOffsetKey: PreferenceKey {
     static var defaultValue: CGFloat = 0
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
@@ -15,7 +15,7 @@ struct ScrollOffsetKey: PreferenceKey {
     }
 }
 
-// Pre-built section — computed once in the background, not on every render
+// A precomputed section keeps filtering and grouping work out of body rendering.
 struct WordSection: Identifiable {
     let id: String          // section letter
     let items: [MatchedEntry]
@@ -32,9 +32,7 @@ struct HomeTab: View {
     @State private var selectedEntry: DictionaryEntry? = nil
     @State private var showSearchBar = false
 
-    // ── Snappy list state ────────────────────────────────────
-    // Sections are BUILT ONCE per change (debounced, off-main),
-    // instead of recomputed on every render. This is the speed fix.
+    // Search sections are rebuilt off the main thread when the query changes.
     @State private var sections: [WordSection] = []
     @State private var resultCount: Int = 0
     @State private var rebuildTask: Task<Void, Never>? = nil
@@ -45,7 +43,7 @@ struct HomeTab: View {
     let languages = ["Kistanigna", "English", "Amharic"]
     private let bannerTimer = Timer.publish(every: 4.0, on: .main, in: .common).autoconnect()
 
-    // ── Favorites (unchanged) ────────────────────────────────
+    // MARK: - Favorites
 
     func getFavoriteKeys() -> [String] {
         FavoriteKeyStore.decode(favoriteKeysRaw)
@@ -72,7 +70,7 @@ struct HomeTab: View {
         setFavoriteKeys(updated)
     }
 
-    // ── Body ─────────────────────────────────────────────────
+    // MARK: - Body
 
     var body: some View {
         ZStack {
@@ -273,7 +271,7 @@ struct HomeTab: View {
         )
     }
 
-    // ── Overlays (unchanged components) ──────────────────────
+    // MARK: - Overlays
 
     @ViewBuilder
     private var wordDetailOverlay: some View {
@@ -301,7 +299,7 @@ struct HomeTab: View {
         }
     }
 
-    // ── Display helper (unchanged) ───────────────────────────
+    // MARK: - Display helpers
 
     func displayText(for entry: DictionaryEntry) -> String {
         switch selectedLanguage {
@@ -363,7 +361,7 @@ struct HomeTab: View {
             }
         }
 
-        // Filter + score (your original relevance logic, unchanged)
+        // Rank exact and prefix matches above general substring matches.
         let matched: [MatchedEntry]
         if query.isEmpty {
             matched = entries.map { MatchedEntry(entry: $0, relevanceScore: 0) }
@@ -381,7 +379,7 @@ struct HomeTab: View {
             }
         }
 
-        // Group into sections (your original grouping logic, unchanged)
+        // Group ranked results by the first displayed character.
         var grouped: [String: [MatchedEntry]] = [:]
         for m in matched {
             let text = display(m.entry).trimmingCharacters(in: .whitespacesAndNewlines)
@@ -392,7 +390,7 @@ struct HomeTab: View {
             grouped[String(first).uppercased(), default: []].append(m)
         }
 
-        // Sort section keys (your original ordering, unchanged)
+        // Present section headers in a stable alphabetical order.
         let letterKeys = grouped.keys.filter {
             $0 != "#" && $0.range(of: "^[A-Za-zሀ-፿]", options: .regularExpression) != nil
         }.sorted()
