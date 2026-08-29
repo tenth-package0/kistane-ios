@@ -119,8 +119,8 @@ App screenshots are not included yet. Strong candidates are the dictionary home 
 
 ## Data and Media Rights
 
-The source and licensing status of the dictionary dataset and several cultural images are not documented in the project. They should not be redistributed publicly until ownership or permission is confirmed.
+The dictionary dataset and cultural media are original project content maintained as part of Kistane Dictionary.
 
 ## License
 
-No open-source license has been selected. The repository should not be distributed publicly until the dataset and media rights are confirmed.
+No open-source license has been selected. The source is publicly viewable, but no permission for reuse, modification, or redistribution is granted by default.
