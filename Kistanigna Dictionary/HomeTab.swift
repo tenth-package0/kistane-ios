@@ -475,7 +475,6 @@ struct HomeTab: View {
                 Self.cachedEntries = full
                 Self.hasLoadedOnce = true
                 self.fullEntries = full
-                print("✅ Full dictionary loaded and cached with \(full.count) entries")
             }
         }
     }
