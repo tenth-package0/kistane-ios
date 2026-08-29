@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct Kistanigna_DictionaryApp: App {
-    @State private var showSplash = false // Start with false, let logic decide
+    @State private var showSplash = false
     
     init() {
         // Search bar text color
@@ -58,46 +58,28 @@ struct Kistanigna_DictionaryApp: App {
         let openCount = UserDefaults.standard.integer(forKey: "appOpenCount")
         let lastSplashTime = UserDefaults.standard.double(forKey: "lastSplashTime")
         
-        // Increment open count
         let newOpenCount = openCount + 1
         UserDefaults.standard.set(newOpenCount, forKey: "appOpenCount")
         UserDefaults.standard.set(currentTime, forKey: "lastAppOpenTime")
         
         var shouldShow = false
         
-        // First time opening the app
         if openCount == 0 {
             shouldShow = true
-            print("🎬 Splash: First time opening app")
-        }
-        // Every 2nd app open
-        else if newOpenCount % 2 == 0 {
+        } else if newOpenCount.isMultiple(of: 2) {
             shouldShow = true
-            print("🎬 Splash: Every 2nd open (count: \(newOpenCount))")
-        }
-        // Or if 7+ hours have passed since last splash
-        else if lastSplashTime > 0 {
-            let sevenHoursInSeconds: Double = 7 * 60 * 60 // 7 hours
+        } else if lastSplashTime > 0 {
+            let sevenHoursInSeconds: TimeInterval = 7 * 60 * 60
             let timeSinceLastSplash = currentTime - lastSplashTime
-            
-            if timeSinceLastSplash >= sevenHoursInSeconds {
-                shouldShow = true
-                print("🎬 Splash: 7+ hours passed (\(Int(timeSinceLastSplash/3600)) hours)")
-            } else {
-                print("⏰ Splash: Only \(Int(timeSinceLastSplash/3600)) hours since last splash")
-            }
+            shouldShow = timeSinceLastSplash >= sevenHoursInSeconds
         }
         
         if shouldShow {
             showSplash = true
             UserDefaults.standard.set(currentTime, forKey: "lastSplashTime")
-            print("✨ Showing splash screen!")
         } else {
             showSplash = false
-            print("🚫 Skipping splash screen")
         }
-        
-        print("📊 Stats - Opens: \(newOpenCount), Last splash: \(Int((currentTime - lastSplashTime)/3600))h ago")
     }
 
     var body: some Scene {
@@ -116,7 +98,6 @@ struct Kistanigna_DictionaryApp: App {
                 }
             }
             .onAppear {
-                // Check splash logic when app appears
                 checkShouldShowSplash()
             }
         }
