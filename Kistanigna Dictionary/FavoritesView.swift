@@ -2,10 +2,9 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    // ✅ Match the same storage style as in ContentView
     @AppStorage("favoriteKeys") private var favoriteKeysRaw: String = ""
     var favoriteKeys: [String] {
-        favoriteKeysRaw.components(separatedBy: ",").filter { !$0.isEmpty }
+        FavoriteKeyStore.decode(favoriteKeysRaw)
     }
 
     @State private var entries: [DictionaryEntry] = []

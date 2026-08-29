@@ -18,7 +18,7 @@ struct FavoritesTab: View {
     let filterOptions = ["All", "Recently Added", "Alphabetical", "Most Viewed"]
 
     var favoriteEntries: [DictionaryEntry] {
-        let keys = favoriteKeysRaw.components(separatedBy: ",").filter { !$0.isEmpty }
+        let keys = FavoriteKeyStore.decode(favoriteKeysRaw)
         var filtered = fullEntries.filter { keys.contains($0.key) }
         
         // Apply sorting based on filter
@@ -535,10 +535,10 @@ struct FavoritesTab: View {
     }
     
     func removeFromFavorites(_ entry: DictionaryEntry) {
-        var keys = favoriteKeysRaw.components(separatedBy: ",").filter { !$0.isEmpty }
+        var keys = FavoriteKeyStore.decode(favoriteKeysRaw)
         if let index = keys.firstIndex(of: entry.key) {
             keys.remove(at: index)
-            favoriteKeysRaw = keys.joined(separator: ",")
+            favoriteKeysRaw = FavoriteKeyStore.encode(keys)
         }
     }
     

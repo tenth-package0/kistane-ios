@@ -48,11 +48,11 @@ struct HomeTab: View {
     // ── Favorites (unchanged) ────────────────────────────────
 
     func getFavoriteKeys() -> [String] {
-        favoriteKeysRaw.components(separatedBy: ",").filter { !$0.isEmpty }
+        FavoriteKeyStore.decode(favoriteKeysRaw)
     }
 
     func setFavoriteKeys(_ keys: [String]) {
-        favoriteKeysRaw = keys.joined(separator: ",")
+        favoriteKeysRaw = FavoriteKeyStore.encode(keys)
     }
 
     func isFavorite(_ entry: DictionaryEntry) -> Bool {
