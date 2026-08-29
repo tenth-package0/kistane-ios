@@ -525,20 +525,19 @@ struct QuizTab: View {
     func generateNewQuestion() {
         guard entries.count >= 4 else { return }
 
-        let shuffled = entries.shuffled()
-        let newQuestion = shuffled[0]
-        var wrongAnswers = Set<String>()
+        guard let newQuestion = entries.randomElement() else { return }
 
         let useEnglish = Bool.random()
         promptText = useEnglish ? newQuestion.english : newQuestion.amharic
         correctAnswer = newQuestion.word
 
-        while wrongAnswers.count < 3 {
-            let fake = shuffled.randomElement()!.word
-            if fake != newQuestion.word && !fake.trimmingCharacters(in: .whitespaces).isEmpty {
-                wrongAnswers.insert(fake)
-            }
-        }
+        let wrongAnswers = Set(entries.lazy
+            .map(\.word)
+            .filter { $0 != newQuestion.word && !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+            .shuffled()
+            .prefix(3))
+
+        guard wrongAnswers.count == 3 else { return }
 
         question = newQuestion
         options = (Array(wrongAnswers) + [correctAnswer]).shuffled()
@@ -589,7 +588,7 @@ struct ConfettiView: View {
                 sway: CGFloat.random(in: 12...45),
                 swayFreq: Double.random(in: 1.5...3.5),
                 size: CGFloat.random(in: 5...10),
-                color: palette.randomElement()!,
+                color: palette.randomElement() ?? .white,
                 spin: Double.random(in: -4...4)
             )
         }
