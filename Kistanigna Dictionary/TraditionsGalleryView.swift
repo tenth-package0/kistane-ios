@@ -136,24 +136,25 @@ struct TraditionCard: View {
     var body: some View {
         Button(action: onTap) {
             VStack(alignment: .leading, spacing: 0) {
-                // Main image
-                Image(tradition.images[0])
-                    .resizable()
-                    .scaledToFill()
-                    .frame(height: 200)
-                    .clipped()
-                    .cornerRadius(16)
-                    .overlay(
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.clear,
-                                Color.black.opacity(0.3)
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
+                if let imageName = tradition.images.first {
+                    Image(imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 200)
+                        .clipped()
                         .cornerRadius(16)
-                    )
+                        .overlay(
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.clear,
+                                    Color.black.opacity(0.3)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .cornerRadius(16)
+                        )
+                }
                 
                 // Content
                 VStack(alignment: .leading, spacing: 12) {
