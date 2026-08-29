@@ -4,14 +4,14 @@ struct FavoritesTab: View {
     @AppStorage("favoriteKeys") private var favoriteKeysRaw: String = ""
     @State private var fullEntries: [DictionaryEntry] = []
     @State private var selectedLanguage = "Kistanigna"
-    @State private var selectedEntry: DictionaryEntry? = nil
+    @State private var selectedEntry: DictionaryEntry?
     @State private var isLoading = true
     @State private var animateCards = false
     @State private var searchText = ""
     @State private var showStats = false
     @State private var scrollOffset: CGFloat = 0
     @State private var showFilterMenu = false
-    @State private var selectedFilter: String? = nil
+    @State private var selectedFilter: String?
     @State private var isDeletionMode = false
     
     let languages = ["Kistanigna", "English", "Amharic"]
