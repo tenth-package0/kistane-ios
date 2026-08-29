@@ -8,7 +8,7 @@ struct QuizReviewItem: Identifiable {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  REVIEW — quiet luxury edition
+//  Quiz answer review
 //  • Cards cascade in with a soft stagger
 //  • Tinted outline status pills, hairline dividers
 //  • Score summary strip at the top
@@ -25,7 +25,7 @@ struct QuizReviewView: View {
 
     var body: some View {
         ZStack {
-            // Theme background — unchanged
+            // Match the background used throughout the quiz flow.
             Color(red: 0.2, green: 0.3, blue: 0.2)
                 .ignoresSafeArea()
 

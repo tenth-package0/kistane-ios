@@ -1,7 +1,7 @@
 import SwiftUI
 
 // ─────────────────────────────────────────────────────────────
-//  QUIZ — quiet luxury edition
+//  Vocabulary quiz
 //  • Questions slide in/out with eased cross-transitions
 //  • Answer buttons resolve with soft color + dim the rest
 //  • Animated hairline progress bar
@@ -434,7 +434,7 @@ struct QuizTab: View {
         }
     }
 
-    // ── Helpers (your original logic — untouched) ───────────
+    // MARK: - Quiz helpers
 
     var performanceText: String {
         let percentage = (Double(score) / Double(totalQuestions)) * 100

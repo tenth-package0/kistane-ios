@@ -9,7 +9,7 @@ struct QuizCategory: Identifiable {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  QUIZ START — quiet luxury edition
+//  Quiz category selection
 //  • Ambient drifting glow orbs behind everything
 //  • Shimmer sweep across the serif title
 //  • Cards rise in with a soft cascade
@@ -35,7 +35,7 @@ struct QuizStartView: View {
 
     var body: some View {
         ZStack {
-            // Base theme color — unchanged
+            // Keep the category artwork within the app's green theme.
             Color(red: 0.2, green: 0.3, blue: 0.2)
                 .ignoresSafeArea()
 
