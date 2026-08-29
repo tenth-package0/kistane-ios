@@ -52,7 +52,7 @@ struct TraditionsTab: View {
         )
     ]
 
-    @State private var selectedTradition: Tradition? = nil
+    @State private var selectedTradition: Tradition?
     @State private var animateTraditions = false
     
     var body: some View {
