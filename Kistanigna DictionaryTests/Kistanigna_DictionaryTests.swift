@@ -14,4 +14,14 @@ struct Kistanigna_DictionaryTests {
         #expect(entry.definition == "A greeting")
     }
 
+    @Test func favoriteKeysRoundTripThroughStorage() {
+        let keys = ["ሰላም-hello-ሰላም", "አበባ-flower-አበባ"]
+
+        #expect(FavoriteKeyStore.decode(FavoriteKeyStore.encode(keys)) == keys)
+    }
+
+    @Test func readsLegacyCommaSeparatedFavoriteKeys() {
+        #expect(FavoriteKeyStore.decode("first,second") == ["first", "second"])
+    }
+
 }
