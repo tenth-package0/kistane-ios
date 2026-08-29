@@ -9,10 +9,10 @@ struct Kistanigna_DictionaryApp: App {
         let textFieldAppearance = UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self])
         textFieldAppearance.defaultTextAttributes = [.foregroundColor: UIColor.white]
         
-        // Beautiful tab bar styling
+        // Configure one tab bar appearance for standard and scroll-edge states.
         let tabBarAppearance = UITabBarAppearance()
         
-        // Create gradient background
+        // Render the gradient once and reuse it as the tab bar background image.
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor(red: 0.1, green: 0.2, blue: 0.1, alpha: 0.95).cgColor,
@@ -24,7 +24,6 @@ struct Kistanigna_DictionaryApp: App {
         gradientLayer.endPoint = CGPoint(x: 1, y: 1)
         gradientLayer.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 100)
         
-        // Convert gradient to image
         UIGraphicsBeginImageContextWithOptions(gradientLayer.frame.size, false, 0)
         if let context = UIGraphicsGetCurrentContext() {
             gradientLayer.render(in: context)
@@ -32,23 +31,19 @@ struct Kistanigna_DictionaryApp: App {
         let gradientImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        // Apply gradient background
         tabBarAppearance.backgroundImage = gradientImage
         tabBarAppearance.shadowColor = UIColor.black.withAlphaComponent(0.3)
         tabBarAppearance.shadowImage = UIImage()
         
-        // Beautiful icon colors
+        // Keep unselected icons visible without competing with the active tab.
         tabBarAppearance.stackedLayoutAppearance.normal.iconColor = UIColor.white.withAlphaComponent(0.6)
         tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor.white
         
-        // Add subtle glow effect to selected icons
         tabBarAppearance.stackedLayoutAppearance.selected.iconColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         
-        // Apply the appearance
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         
-        // Add blur effect
         UITabBar.appearance().isTranslucent = true
         UITabBar.appearance().backgroundColor = UIColor.clear
     }

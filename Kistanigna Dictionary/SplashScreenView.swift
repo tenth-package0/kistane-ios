@@ -45,7 +45,7 @@ struct SplashScreenView: View {
             .ignoresSafeArea()
             .opacity(backgroundImageOpacity)
             
-            // Premium animated gradient overlay - subtle
+            // The animated overlay adds depth without obscuring the artwork.
             AnimatedSplashBackground(gradientRotation: gradientRotation)
                 .ignoresSafeArea()
                 .opacity(0.1) // Very subtle since we want to see the image
