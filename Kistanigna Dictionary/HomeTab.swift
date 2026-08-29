@@ -445,7 +445,7 @@ struct HomeTab: View {
         return score
     }
 
-    // ── Loading (your original caching flow, kept) ───────────
+    // MARK: - Loading
 
     func loadEntries() {
         if !Self.cachedEntries.isEmpty {
@@ -600,7 +600,7 @@ struct LanguagePickerBar: View {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  Background — unchanged
+// MARK: - Shared background
 // ─────────────────────────────────────────────────────────────
 
 struct AnimatedGradientBackground: View {
