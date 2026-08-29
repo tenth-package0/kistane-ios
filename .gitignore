@@ -1,0 +1,31 @@
+# Xcode build output
+build/
+DerivedData/
+*.xcarchive
+*.ipa
+
+# User-specific Xcode state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+*.xcsettings
+*.xcbkptlist
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Local configuration and credentials
+.env
+.env.*
+*.xcconfig.local
+Secrets.xcconfig
+*.p12
+*.pem
+*.mobileprovision
+
+# macOS and editor files
+.DS_Store
+*.swp
+*~
