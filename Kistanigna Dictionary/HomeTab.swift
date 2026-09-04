@@ -2,9 +2,10 @@ import SwiftUI
 import Combine
 
 struct MatchedEntry: Identifiable {
-    let id = UUID()
     let entry: DictionaryEntry
     let relevanceScore: Int
+
+    var id: String { entry.id }
 }
 
 // Shared with FavoritesTab to track its parallax header offset.

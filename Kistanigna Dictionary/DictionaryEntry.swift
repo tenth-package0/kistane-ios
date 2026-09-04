@@ -1,11 +1,12 @@
 import Foundation
 
 struct DictionaryEntry: Codable, Identifiable {
-    let id: UUID = UUID()
     let word: String
     let english: String
     let amharic: String
     let definition: String
+
+    var id: String { key }
 
     var key: String {
         "\(word)-\(english)-\(amharic)"

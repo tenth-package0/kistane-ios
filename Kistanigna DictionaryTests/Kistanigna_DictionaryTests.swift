@@ -24,4 +24,20 @@ struct Kistanigna_DictionaryTests {
         #expect(FavoriteKeyStore.decode("first,second") == ["first", "second"])
     }
 
+    @Test func dictionaryEntryIdentityIsStableAcrossDecodes() throws {
+        let json = #"{"word":"ሰላም","english":"hello","amharic":"ሰላም","definition":"A greeting"}"#
+        let data = Data(json.utf8)
+
+        let first = try JSONDecoder().decode(DictionaryEntry.self, from: data)
+        let second = try JSONDecoder().decode(DictionaryEntry.self, from: data)
+
+        #expect(first.id == second.id)
+    }
+
+    @Test func favoriteStorageRemovesDuplicatesWithoutReordering() {
+        let keys = ["first", "second", "first"]
+
+        #expect(FavoriteKeyStore.decode(FavoriteKeyStore.encode(keys)) == ["first", "second"])
+    }
+
 }

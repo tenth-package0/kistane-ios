@@ -6,19 +6,24 @@ enum FavoriteKeyStore {
 
         if let data = rawValue.data(using: .utf8),
            let keys = try? JSONDecoder().decode([String].self, from: data) {
-            return keys
+            return uniqueKeys(keys)
         }
 
         // Support values saved by versions that used comma-separated keys.
-        return rawValue.split(separator: ",").map(String.init)
+        return uniqueKeys(rawValue.split(separator: ",").map(String.init))
     }
 
     static func encode(_ keys: [String]) -> String {
-        guard let data = try? JSONEncoder().encode(keys),
+        guard let data = try? JSONEncoder().encode(uniqueKeys(keys)),
               let value = String(data: data, encoding: .utf8) else {
             return "[]"
         }
         return value
+    }
+
+    private static func uniqueKeys(_ keys: [String]) -> [String] {
+        var seen = Set<String>()
+        return keys.filter { seen.insert($0).inserted }
     }
 }
 
