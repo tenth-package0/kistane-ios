@@ -348,11 +348,13 @@ struct HomeTab: View {
     }
 
     // Pure function — no self, safe off the main thread
-    private static func buildSections(
+    static func buildSections(
         entries: [DictionaryEntry],
         query: String,
         language: String
     ) -> (sections: [WordSection], count: Int) {
+
+        let normalizedQuery = normalizedSearchText(query)
 
         func display(_ entry: DictionaryEntry) -> String {
             switch language {
@@ -364,12 +366,11 @@ struct HomeTab: View {
 
         // Rank exact and prefix matches above general substring matches.
         let matched: [MatchedEntry]
-        if query.isEmpty {
+        if normalizedQuery.isEmpty {
             matched = entries.map { MatchedEntry(entry: $0, relevanceScore: 0) }
         } else {
-            let q = query.lowercased()
             matched = entries.compactMap { entry in
-                let score = relevanceScore(entry: entry, query: q, language: language)
+                let score = relevanceScore(entry: entry, query: normalizedQuery, language: language)
                 return score > 0 ? MatchedEntry(entry: entry, relevanceScore: score) : nil
             }
             .sorted { first, second in
@@ -399,7 +400,7 @@ struct HomeTab: View {
         let orderedKeys = letterKeys + otherKeys
 
         // While searching, keep relevance order inside one flat section
-        if !query.isEmpty {
+        if !normalizedQuery.isEmpty {
             return ([WordSection(id: "Results", items: matched)], matched.count)
         }
 
@@ -410,23 +411,26 @@ struct HomeTab: View {
     }
 
     // Your original scoring — now a static pure function
-    private static func relevanceScore(entry: DictionaryEntry, query: String, language: String) -> Int {
-        let word = entry.word.lowercased()
-        let english = entry.english.lowercased()
-        let amharic = entry.amharic.lowercased()
+    static func relevanceScore(entry: DictionaryEntry, query: String, language: String) -> Int {
+        let normalizedQuery = normalizedSearchText(query)
+        guard !normalizedQuery.isEmpty else { return 0 }
+
+        let word = normalizedSearchText(entry.word)
+        let english = normalizedSearchText(entry.english)
+        let amharic = normalizedSearchText(entry.amharic)
 
         var score = 0
 
-        guard word.contains(query) || english.contains(query) || amharic.contains(query) else {
+        guard word.contains(normalizedQuery) || english.contains(normalizedQuery) || amharic.contains(normalizedQuery) else {
             return 0
         }
         score = 10
 
-        if word == query || english == query || amharic == query {
+        if word == normalizedQuery || english == normalizedQuery || amharic == normalizedQuery {
             score += 100
         }
 
-        if word.hasPrefix(query) || english.hasPrefix(query) || amharic.hasPrefix(query) {
+        if word.hasPrefix(normalizedQuery) || english.hasPrefix(normalizedQuery) || amharic.hasPrefix(normalizedQuery) {
             score += 50
         }
 
@@ -436,14 +440,20 @@ struct HomeTab: View {
 
         switch language {
         case "English":
-            if english.contains(query) { score += 20 }
+            if english.contains(normalizedQuery) { score += 20 }
         case "Amharic":
-            if amharic.contains(query) { score += 20 }
+            if amharic.contains(normalizedQuery) { score += 20 }
         default:
-            if word.contains(query) { score += 20 }
+            if word.contains(normalizedQuery) { score += 20 }
         }
 
         return score
+    }
+
+    static func normalizedSearchText(_ text: String) -> String {
+        text
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
     }
 
     // MARK: - Loading

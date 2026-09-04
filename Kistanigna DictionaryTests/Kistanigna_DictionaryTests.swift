@@ -40,4 +40,36 @@ struct Kistanigna_DictionaryTests {
         #expect(FavoriteKeyStore.decode(FavoriteKeyStore.encode(keys)) == ["first", "second"])
     }
 
+    @Test func searchIgnoresWhitespaceCaseAndDiacritics() {
+        let entry = DictionaryEntry(
+            word: "ጤና",
+            english: "Café",
+            amharic: "ጤና",
+            definition: "Example"
+        )
+
+        let result = HomeTab.buildSections(
+            entries: [entry],
+            query: "  CAFE  ",
+            language: "English"
+        )
+
+        #expect(result.count == 1)
+        #expect(result.sections.first?.items.first?.entry.id == entry.id)
+    }
+
+    @Test func exactSearchRanksAheadOfPrefixAndSubstringMatches() {
+        let exact = DictionaryEntry(word: "one", english: "art", amharic: "አንድ", definition: "Exact")
+        let prefix = DictionaryEntry(word: "two", english: "artist", amharic: "ሁለት", definition: "Prefix")
+        let substring = DictionaryEntry(word: "three", english: "cart", amharic: "ሶስት", definition: "Substring")
+
+        let result = HomeTab.buildSections(
+            entries: [substring, prefix, exact],
+            query: "art",
+            language: "English"
+        )
+
+        #expect(result.sections.first?.items.map(\.entry.id) == [exact.id, prefix.id, substring.id])
+    }
+
 }

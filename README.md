@@ -122,7 +122,7 @@ xcodebuild \
   test
 ```
 
-The unit suite covers dictionary-entry decoding and favorite-key persistence, including migration from the earlier comma-separated format. High-value future coverage includes dataset integrity, search ranking, and deterministic quiz generation. The UI-test target remains a scaffold and needs a configured host before it can provide meaningful coverage.
+The unit suite covers dictionary-entry decoding and stable identity, favorite-key persistence and legacy migration, duplicate handling, and multilingual search normalization and ranking. High-value future coverage includes dataset integrity and deterministic quiz generation. The UI-test target remains a scaffold and needs a configured host before it can provide meaningful coverage.
 
 ## Screenshots
 
