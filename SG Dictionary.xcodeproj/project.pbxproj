@@ -494,7 +494,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Kistanigna Dictionary";
+				TEST_TARGET_NAME = "SG Dictionary";
 			};
 			name = Debug;
 		};
@@ -510,7 +510,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Kistanigna Dictionary";
+				TEST_TARGET_NAME = "SG Dictionary";
 			};
 			name = Release;
 		};

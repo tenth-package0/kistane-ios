@@ -49,6 +49,11 @@ struct Kistanigna_DictionaryApp: App {
     }
     
     private func checkShouldShowSplash() {
+        if ProcessInfo.processInfo.arguments.contains("-skipSplash") {
+            showSplash = false
+            return
+        }
+
         let currentTime = Date().timeIntervalSince1970
         let openCount = UserDefaults.standard.integer(forKey: "appOpenCount")
         let lastSplashTime = UserDefaults.standard.double(forKey: "lastSplashTime")
