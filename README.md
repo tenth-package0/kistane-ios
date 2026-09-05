@@ -1,8 +1,31 @@
-# Kistane Dictionary
+# Kistane Dictionary — iOS
 
-Kistane is a multilingual iOS dictionary designed to make Kistanigna easier to access, learn, and preserve digitally.
+An offline-first, multilingual dictionary and learning experience designed to make Kistanigna easier to access, learn, and preserve digitally.
 
-Kistanigna · English · Amharic
+**Kistanigna · English · Amharic**
+
+<p>
+  <img alt="Swift" src="https://img.shields.io/badge/Swift-5-173F27?logo=swift&logoColor=white">
+  <img alt="iOS" src="https://img.shields.io/badge/iOS-15.6%2B-173F27?logo=apple&logoColor=white">
+  <img alt="Dictionary records" src="https://img.shields.io/badge/dictionary-9%2C924_records-173F27">
+</p>
+
+## Product Tour
+
+These screenshots were captured from the native SwiftUI app running on an iPhone simulator.
+
+<table>
+  <tr>
+    <td align="center"><img src="docs/screenshots/home.png" alt="Dictionary home and language browsing" width="240"></td>
+    <td align="center"><img src="docs/screenshots/traditions.png" alt="Kistane traditions and cultural stories" width="240"></td>
+    <td align="center"><img src="docs/screenshots/quiz.png" alt="Vocabulary quiz categories" width="240"></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>Trilingual dictionary</strong><br><sub>Browse and search 9,924 local records.</sub></td>
+    <td align="center"><strong>Cultural context</strong><br><sub>Explore traditions through stories and imagery.</sub></td>
+    <td align="center"><strong>Active learning</strong><br><sub>Practice vocabulary by topic.</sub></td>
+  </tr>
+</table>
 
 ## Why I Built It
 
@@ -123,10 +146,6 @@ xcodebuild \
 ```
 
 The unit suite covers dictionary-entry decoding and stable identity, favorite-key persistence and legacy migration, duplicate handling, and multilingual search normalization and ranking. A UI smoke test launches the app and verifies navigation across the dictionary, favorites, traditions, and quiz tabs. High-value future coverage includes dataset integrity and deterministic quiz generation.
-
-## Screenshots
-
-App screenshots are not included yet. Strong candidates are the dictionary home screen, multilingual search results, entry details, a quiz question, and the traditions gallery.
 
 ## Data and Media Rights
 
