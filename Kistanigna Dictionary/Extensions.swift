@@ -10,7 +10,11 @@ enum FavoriteKeyStore {
         }
 
         // Support values saved by versions that used comma-separated keys.
-        return uniqueKeys(rawValue.split(separator: ",").map(String.init))
+        let legacyKeys = rawValue
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
+            .filter { !$0.isEmpty }
+        return uniqueKeys(legacyKeys)
     }
 
     static func encode(_ keys: [String]) -> String {

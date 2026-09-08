@@ -24,6 +24,10 @@ struct Kistanigna_DictionaryTests {
         #expect(FavoriteKeyStore.decode("first,second") == ["first", "second"])
     }
 
+    @Test func trimsLegacyFavoriteKeys() {
+        #expect(FavoriteKeyStore.decode(" first, second , ") == ["first", "second"])
+    }
+
     @Test func dictionaryEntryIdentityIsStableAcrossDecodes() throws {
         let json = #"{"word":"ሰላም","english":"hello","amharic":"ሰላም","definition":"A greeting"}"#
         let data = Data(json.utf8)
