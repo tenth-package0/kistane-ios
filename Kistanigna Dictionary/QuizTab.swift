@@ -490,15 +490,15 @@ struct QuizTab: View {
         let filtered: [DictionaryEntry]
         switch selectedCategory.lowercased() {
         case "greetings":
-            filtered = entries.filter { $0.english.contains("hello") || $0.amharic.contains("ሰላም") }
+            filtered = entries.filter { Self.englishTokens(in: $0).contains("hello") || $0.amharic.contains("ሰላም") }
         case "animals":
-            filtered = entries.filter { $0.english.contains("dog") || $0.english.contains("cat") || $0.english.contains("goat") }
+            filtered = entries.filter { !Self.englishTokens(in: $0).isDisjoint(with: ["dog", "dogs", "cat", "cats", "goat", "goats"]) }
         case "food & drink":
-            filtered = entries.filter { $0.english.contains("bread") || $0.english.contains("coffee") || $0.english.contains("milk") }
+            filtered = entries.filter { !Self.englishTokens(in: $0).isDisjoint(with: ["bread", "coffee", "milk"]) }
         case "common phrases":
-            filtered = entries.filter { $0.english.contains("thank") || $0.english.contains("sorry") || $0.english.contains("please") }
+            filtered = entries.filter { !Self.englishTokens(in: $0).isDisjoint(with: ["thank", "thanks", "sorry", "please"]) }
         case "travel":
-            filtered = entries.filter { $0.english.contains("bus") || $0.english.contains("car") || $0.english.contains("road") }
+            filtered = entries.filter { !Self.englishTokens(in: $0).isDisjoint(with: ["bus", "buses", "car", "cars", "road", "roads"]) }
         case "everyday words":
             filtered = entries.filter { $0.english.count < 7 }
         default:
@@ -507,6 +507,14 @@ struct QuizTab: View {
 
         // A question needs one correct answer and three distinct alternatives.
         return filtered.count >= 4 ? filtered : entries
+    }
+
+    static func englishTokens(in entry: DictionaryEntry) -> Set<String> {
+        let words = entry.english
+            .lowercased()
+            .components(separatedBy: CharacterSet.letters.inverted)
+            .filter { !$0.isEmpty }
+        return Set(words)
     }
 
     static func uniqueEntriesByWord(_ entries: [DictionaryEntry]) -> [DictionaryEntry] {

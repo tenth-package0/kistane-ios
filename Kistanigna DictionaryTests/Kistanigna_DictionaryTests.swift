@@ -121,4 +121,12 @@ struct Kistanigna_DictionaryTests {
         #expect(quiz.filterEntriesByCategory(from: entries).count == 4)
     }
 
+    @Test func quizCategoryMatchingUsesWholeWords() {
+        let cat = DictionaryEntry(word: "one", english: "cat", amharic: "", definition: "")
+        let catastrophe = DictionaryEntry(word: "two", english: "catastrophe", amharic: "", definition: "")
+
+        #expect(QuizTab.englishTokens(in: cat).contains("cat"))
+        #expect(!QuizTab.englishTokens(in: catastrophe).contains("cat"))
+    }
+
 }
