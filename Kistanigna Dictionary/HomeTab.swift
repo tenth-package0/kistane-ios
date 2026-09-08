@@ -452,9 +452,11 @@ struct HomeTab: View {
     }
 
     static func normalizedSearchText(_ text: String) -> String {
-        text
+        // Search should behave the same regardless of the device's language settings.
+        let searchLocale = Locale(identifier: "en_US_POSIX")
+        return text
             .trimmingCharacters(in: .whitespacesAndNewlines)
-            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: .current)
+            .folding(options: [.caseInsensitive, .diacriticInsensitive], locale: searchLocale)
     }
 
     // MARK: - Loading

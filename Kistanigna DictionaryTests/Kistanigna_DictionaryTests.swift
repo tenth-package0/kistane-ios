@@ -62,6 +62,10 @@ struct Kistanigna_DictionaryTests {
         #expect(result.sections.first?.items.first?.entry.id == entry.id)
     }
 
+    @Test func searchNormalizationDoesNotDependOnDeviceLocale() {
+        #expect(HomeTab.normalizedSearchText("  CAFÉ  ") == "cafe")
+    }
+
     @Test func exactSearchRanksAheadOfPrefixAndSubstringMatches() {
         let exact = DictionaryEntry(word: "one", english: "art", amharic: "አንድ", definition: "Exact")
         let prefix = DictionaryEntry(word: "two", english: "artist", amharic: "ሁለት", definition: "Prefix")
