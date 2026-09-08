@@ -57,6 +57,7 @@ struct PremiumWordCard: View {
                         }
                     }
                     .buttonStyle(PremiumButtonStyle())
+                    .accessibilityLabel(isFavorite ? "Remove from favorites" : "Add to favorites")
                     
                     Button(action: {
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
@@ -76,6 +77,7 @@ struct PremiumWordCard: View {
                         }
                     }
                     .buttonStyle(PremiumButtonStyle())
+                    .accessibilityLabel(showDefinition ? "Hide definition" : "Show definition")
                 }
             }
             .padding(20)

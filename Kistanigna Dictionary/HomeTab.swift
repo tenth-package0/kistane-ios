@@ -144,6 +144,7 @@ struct HomeTab: View {
                             .animation(.spring(response: 0.4, dampingFraction: 0.7), value: showSearchBar)
                     }
                 }
+                .accessibilityLabel(showSearchBar ? "Close search" : "Open search")
             }
             .padding(.horizontal, 20)
             .padding(.top, 8)
@@ -170,6 +171,7 @@ struct HomeTab: View {
                                     .font(.system(size: 16))
                                     .foregroundColor(.white.opacity(0.6))
                             }
+                            .accessibilityLabel("Clear search")
                         }
                     }
                     .padding(14)

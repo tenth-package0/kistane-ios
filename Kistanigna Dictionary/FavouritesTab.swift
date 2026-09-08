@@ -203,6 +203,7 @@ struct FavoritesTab: View {
                         Button(action: { showStats = true }) {
                             premiumIconButton(icon: "chart.bar.fill")
                         }
+                        .accessibilityLabel("Favorite statistics")
                         
                         Button(action: {
                             withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
@@ -211,6 +212,7 @@ struct FavoritesTab: View {
                         }) {
                             premiumIconButton(icon: "slider.horizontal.3")
                         }
+                        .accessibilityLabel("Filter favorites")
                     }
                 }
             }
@@ -233,6 +235,7 @@ struct FavoritesTab: View {
                                 .font(.system(size: 16))
                                 .foregroundColor(.white.opacity(0.6))
                         }
+                        .accessibilityLabel("Clear favorites search")
                     }
                 }
                 .padding(16)
@@ -416,6 +419,7 @@ struct FavoritesTab: View {
                                 .foregroundColor(.white)
                         }
                     }
+                    .accessibilityLabel("Close filters")
                 }
                 
                 // Filter options
@@ -717,6 +721,7 @@ struct IOSStyleFavoriteCard: View {
                             }
                         }
                         .buttonStyle(PlainButtonStyle())
+                        .accessibilityLabel("Remove \(displayText) from favorites")
                         .offset(x: -10, y: -10)
                         .scaleEffect(1.1)
                         .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isDeletionMode)
