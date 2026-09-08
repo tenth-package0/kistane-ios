@@ -72,4 +72,22 @@ struct Kistanigna_DictionaryTests {
         #expect(result.sections.first?.items.map(\.entry.id) == [exact.id, prefix.id, substring.id])
     }
 
+    @Test func searchWithNoMatchesReturnsNoSections() {
+        let entry = DictionaryEntry(
+            word: "ሰላም",
+            english: "hello",
+            amharic: "ሰላም",
+            definition: "A greeting"
+        )
+
+        let result = HomeTab.buildSections(
+            entries: [entry],
+            query: "goodbye",
+            language: "English"
+        )
+
+        #expect(result.count == 0)
+        #expect(result.sections.isEmpty)
+    }
+
 }

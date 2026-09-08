@@ -401,6 +401,7 @@ struct HomeTab: View {
 
         // While searching, keep relevance order inside one flat section
         if !normalizedQuery.isEmpty {
+            guard !matched.isEmpty else { return ([], 0) }
             return ([WordSection(id: "Results", items: matched)], matched.count)
         }
 
