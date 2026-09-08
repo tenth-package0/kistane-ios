@@ -37,6 +37,7 @@ struct HomeTab: View {
     @State private var sections: [WordSection] = []
     @State private var resultCount: Int = 0
     @State private var rebuildTask: Task<Void, Never>?
+    @State private var rebuildGeneration = 0
 
     @AppStorage("favoriteKeys") private var favoriteKeysRaw: String = ""
     @FocusState private var searchFieldFocused: Bool
@@ -97,6 +98,9 @@ struct HomeTab: View {
         }
         .onChange(of: fullEntries.count) { _ in
             scheduleRebuild(debounce: false)    // when full dictionary lands
+        }
+        .onDisappear {
+            rebuildTask?.cancel()
         }
     }
 
@@ -321,11 +325,13 @@ struct HomeTab: View {
 
     private func scheduleRebuild(debounce: Bool) {
         rebuildTask?.cancel()
+        rebuildGeneration += 1
 
         // Capture everything the background work needs as plain values
         let entriesSnapshot = fullEntries
         let query = searchText
         let language = selectedLanguage
+        let generation = rebuildGeneration
 
         rebuildTask = Task {
             if debounce {
@@ -341,6 +347,8 @@ struct HomeTab: View {
             if Task.isCancelled { return }
 
             await MainActor.run {
+                // Cancellation can race the hop back to the main actor.
+                guard generation == self.rebuildGeneration else { return }
                 withAnimation(.easeOut(duration: 0.18)) {
                     self.sections = built.sections
                     self.resultCount = built.count
