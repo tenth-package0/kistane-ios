@@ -15,11 +15,11 @@ struct FavoritesTab: View {
     @State private var isDeletionMode = false
     
     let languages = ["Kistanigna", "English", "Amharic"]
-    let filterOptions = ["All", "Recently Added", "Alphabetical", "Most Viewed"]
+    let filterOptions = ["All", "Recently Added", "Alphabetical"]
 
     var favoriteEntries: [DictionaryEntry] {
         let keys = FavoriteKeyStore.decode(favoriteKeysRaw)
-        var filtered = fullEntries.filter { keys.contains($0.key) }
+        var filtered = Self.savedEntries(from: fullEntries, keys: keys)
         
         // Apply sorting based on filter
         if let filter = selectedFilter {
@@ -27,7 +27,8 @@ struct FavoritesTab: View {
             case "Alphabetical":
                 filtered.sort { displayText(for: $0) < displayText(for: $1) }
             case "Recently Added":
-                filtered = Array(filtered.reversed())
+                let savedPosition = Dictionary(uniqueKeysWithValues: keys.enumerated().map { ($1, $0) })
+                filtered.sort { savedPosition[$0.key, default: 0] > savedPosition[$1.key, default: 0] }
             default:
                 break
             }
@@ -44,6 +45,11 @@ struct FavoritesTab: View {
         }
         
         return filtered
+    }
+
+    static func savedEntries(from entries: [DictionaryEntry], keys: [String]) -> [DictionaryEntry] {
+        let savedKeys = Set(keys)
+        return entries.filter { savedKeys.contains($0.key) }
     }
 
     var body: some View {

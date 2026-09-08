@@ -129,4 +129,13 @@ struct Kistanigna_DictionaryTests {
         #expect(!QuizTab.englishTokens(in: catastrophe).contains("cat"))
     }
 
+    @Test func favoriteLookupReturnsOnlySavedEntries() {
+        let saved = DictionaryEntry(word: "one", english: "first", amharic: "አንድ", definition: "")
+        let unsaved = DictionaryEntry(word: "two", english: "second", amharic: "ሁለት", definition: "")
+
+        let result = FavoritesTab.savedEntries(from: [saved, unsaved], keys: [saved.key])
+
+        #expect(result.map(\.id) == [saved.id])
+    }
+
 }
