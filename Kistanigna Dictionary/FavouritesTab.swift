@@ -36,12 +36,7 @@ struct FavoritesTab: View {
         
         // Apply search filter if text exists
         if !searchText.isEmpty {
-            let query = searchText.lowercased()
-            filtered = filtered.filter {
-                $0.word.lowercased().contains(query) ||
-                $0.english.lowercased().contains(query) ||
-                $0.amharic.lowercased().contains(query)
-            }
+            filtered = filtered.filter { Self.matchesSearch($0, query: searchText) }
         }
         
         return filtered
@@ -50,6 +45,15 @@ struct FavoritesTab: View {
     static func savedEntries(from entries: [DictionaryEntry], keys: [String]) -> [DictionaryEntry] {
         let savedKeys = Set(keys)
         return entries.filter { savedKeys.contains($0.key) }
+    }
+
+    static func matchesSearch(_ entry: DictionaryEntry, query: String) -> Bool {
+        let normalizedQuery = HomeTab.normalizedSearchText(query)
+        guard !normalizedQuery.isEmpty else { return true }
+
+        return [entry.word, entry.english, entry.amharic]
+            .map(HomeTab.normalizedSearchText)
+            .contains { $0.contains(normalizedQuery) }
     }
 
     var body: some View {

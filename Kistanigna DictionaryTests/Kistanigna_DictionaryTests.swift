@@ -138,4 +138,10 @@ struct Kistanigna_DictionaryTests {
         #expect(result.map(\.id) == [saved.id])
     }
 
+    @Test func favoriteSearchIgnoresWhitespaceCaseAndDiacritics() {
+        let entry = DictionaryEntry(word: "ጤና", english: "Café", amharic: "ጤና", definition: "")
+
+        #expect(FavoritesTab.matchesSearch(entry, query: "  CAFE  "))
+    }
+
 }
