@@ -531,11 +531,12 @@ struct FavoritesTab: View {
     func refreshFavorites() async {
         let impactFeedback = UIImpactFeedbackGenerator(style: .light)
         impactFeedback.impactOccurred()
-        
-        try? await Task.sleep(nanoseconds: 500_000_000)
-        
-        DispatchQueue.main.async {
-            self.fullEntries = DictionaryLoader.loadFull()
+
+        let entries = await Task.detached(priority: .userInitiated) {
+            DictionaryLoader.loadFull()
+        }.value
+        await MainActor.run {
+            self.fullEntries = entries
         }
     }
     

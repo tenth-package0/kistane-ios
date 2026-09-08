@@ -1,6 +1,6 @@
 import Foundation
 
-struct DictionaryEntry: Codable, Identifiable {
+struct DictionaryEntry: Codable, Identifiable, Sendable {
     let word: String
     let english: String
     let amharic: String

@@ -495,9 +495,9 @@ struct HomeTab: View {
         let impactFeedback = UIImpactFeedbackGenerator(style: .light)
         impactFeedback.impactOccurred()
 
-        try? await Task.sleep(nanoseconds: 600_000_000)
-
-        let full = DictionaryLoader.loadFull()
+        let full = await Task.detached(priority: .userInitiated) {
+            DictionaryLoader.loadFull()
+        }.value
         await MainActor.run {
             Self.cachedEntries = full
             self.fullEntries = full
