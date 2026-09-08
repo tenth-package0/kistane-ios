@@ -98,4 +98,27 @@ struct Kistanigna_DictionaryTests {
         #expect(result.sections.isEmpty)
     }
 
+    @Test func quizRemovesDuplicateAndBlankAnswerWords() {
+        let entries = [
+            DictionaryEntry(word: "one", english: "first", amharic: "አንድ", definition: ""),
+            DictionaryEntry(word: "one", english: "duplicate", amharic: "አንድ", definition: ""),
+            DictionaryEntry(word: "  ", english: "blank", amharic: "", definition: ""),
+            DictionaryEntry(word: "two", english: "second", amharic: "ሁለት", definition: "")
+        ]
+
+        #expect(QuizTab.uniqueEntriesByWord(entries).map(\.word) == ["one", "two"])
+    }
+
+    @Test func quizFallsBackWhenCategoryCannotBuildAQuestion() {
+        let entries = [
+            DictionaryEntry(word: "one", english: "hello", amharic: "አንድ", definition: ""),
+            DictionaryEntry(word: "two", english: "second", amharic: "ሁለት", definition: ""),
+            DictionaryEntry(word: "three", english: "third", amharic: "ሶስት", definition: ""),
+            DictionaryEntry(word: "four", english: "fourth", amharic: "አራት", definition: "")
+        ]
+        let quiz = QuizTab(selectedCategory: "Greetings", onBack: {})
+
+        #expect(quiz.filterEntriesByCategory(from: entries).count == 4)
+    }
+
 }

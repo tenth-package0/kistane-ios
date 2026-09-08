@@ -481,26 +481,39 @@ struct QuizTab: View {
                 !entry.amharic.isEmpty
         }
 
-        entries = filterEntriesByCategory(from: allEntries)
+        let uniqueEntries = Self.uniqueEntriesByWord(allEntries)
+        entries = filterEntriesByCategory(from: uniqueEntries)
         resetQuiz()
     }
 
     func filterEntriesByCategory(from entries: [DictionaryEntry]) -> [DictionaryEntry] {
+        let filtered: [DictionaryEntry]
         switch selectedCategory.lowercased() {
         case "greetings":
-            return entries.filter { $0.english.contains("hello") || $0.amharic.contains("ሰላም") }
+            filtered = entries.filter { $0.english.contains("hello") || $0.amharic.contains("ሰላም") }
         case "animals":
-            return entries.filter { $0.english.contains("dog") || $0.english.contains("cat") || $0.english.contains("goat") }
+            filtered = entries.filter { $0.english.contains("dog") || $0.english.contains("cat") || $0.english.contains("goat") }
         case "food & drink":
-            return entries.filter { $0.english.contains("bread") || $0.english.contains("coffee") || $0.english.contains("milk") }
+            filtered = entries.filter { $0.english.contains("bread") || $0.english.contains("coffee") || $0.english.contains("milk") }
         case "common phrases":
-            return entries.filter { $0.english.contains("thank") || $0.english.contains("sorry") || $0.english.contains("please") }
+            filtered = entries.filter { $0.english.contains("thank") || $0.english.contains("sorry") || $0.english.contains("please") }
         case "travel":
-            return entries.filter { $0.english.contains("bus") || $0.english.contains("car") || $0.english.contains("road") }
+            filtered = entries.filter { $0.english.contains("bus") || $0.english.contains("car") || $0.english.contains("road") }
         case "everyday words":
-            return entries.filter { $0.english.count < 7 }
+            filtered = entries.filter { $0.english.count < 7 }
         default:
             return entries
+        }
+
+        // A question needs one correct answer and three distinct alternatives.
+        return filtered.count >= 4 ? filtered : entries
+    }
+
+    static func uniqueEntriesByWord(_ entries: [DictionaryEntry]) -> [DictionaryEntry] {
+        var seenWords = Set<String>()
+        return entries.filter { entry in
+            let word = entry.word.trimmingCharacters(in: .whitespacesAndNewlines)
+            return !word.isEmpty && seenWords.insert(word).inserted
         }
     }
 
@@ -531,11 +544,11 @@ struct QuizTab: View {
         promptText = useEnglish ? newQuestion.english : newQuestion.amharic
         correctAnswer = newQuestion.word
 
-        let wrongAnswers = Set(entries.lazy
+        let wrongAnswers = entries.lazy
             .map(\.word)
             .filter { $0 != newQuestion.word && !$0.trimmingCharacters(in: .whitespaces).isEmpty }
             .shuffled()
-            .prefix(3))
+            .prefix(3)
 
         guard wrongAnswers.count == 3 else { return }
 
