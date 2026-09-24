@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 @testable import SG_Dictionary
-
+   
 struct Kistanigna_DictionaryTests {
 
     @Test func decodesDictionaryEntry() throws {
