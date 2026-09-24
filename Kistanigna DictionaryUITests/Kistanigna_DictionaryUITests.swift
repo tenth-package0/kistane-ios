@@ -4,7 +4,7 @@
 //
 //  Created by Kebron Tadesse on 3/28/25.
 //
-
+    
 import XCTest
 
 final class Kistanigna_DictionaryUITests: XCTestCase {
